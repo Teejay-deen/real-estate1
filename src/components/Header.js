@@ -11,11 +11,11 @@ const Header = () => {
           <img src={Logo} alt="" />
         </Link>
         <div className="flex gap-5 ">
-          <Link className="bg-violet-700 hover:text-violet-800 text-white px-4 py-3 rounded-lg transition" to="">
+          <Link className="bg-violet-700 hover:text-violet-800 text-white px-4 py-3 rounded-full transition" to="">
             Sign in
           </Link>
           <Link
-            className="bg-violet-700 hover:text-violet-800 text-white px-4 py-3 rounded-lg transition"
+            className="bg-violet-700 hover:text-violet-800 text-white px-4 py-3 rounded-full transition"
             to=""
           >
             Sign Up
