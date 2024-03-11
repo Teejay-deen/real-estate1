@@ -11,9 +11,7 @@ const Banner = () => {
             <span className="text-violet-900">Rent </span>Your Dream House With Us.
           </h1>
           <p className="max-w-[480px] mb-8 ">
-            House is a place where we can shelter and it gives us a protection
-            from rain, heat , storm etc. Everyone has their own choice on what
-            type of house they feel comfortable to live, so do I. 
+          House is a place where we can shelter and it gives us a protection from rain, heat , storm etc. Everyone has their own choice on what type of house they feel comfortable to live, so do I. I enjoy to live in calm and open environment, so house built on small land won't be my choice. I want a large open space surrounded by compound where I can stroll especially when I feel bored on my job.
           </p>
         </div>
 
