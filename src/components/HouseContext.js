@@ -7,121 +7,84 @@ export const HouseContext = createContext();
 
 const HouseContextProvider = ({ children }) => {
   const [houses, setHouses] = useState(housesData);
-  const [country, setCountry] = useState("Location(any)");
+  const [country, setCountry] = useState("All");
   const [countries, setCountries] = useState([]);
-  const [property, setProperty] = useState("Property type (any)");
+  const [property, setProperty] = useState("All");
   const [properties, setProperties] = useState([]);
-  const [price, setPrice] = useState("Price range (any)");
-  const [loading, setLoading] = useState(false);
 
-  // return all country
+  const [price, setPrice] = useState({
+    price: "All",
+    min: 0,
+    max: Number.POSITIVE_INFINITY,
+  });
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const allCountries = houses.map((house) => {
       return house.country;
     });
-    // remove duplicate country
+    const uniqueCountry = ["All", ...new Set(allCountries)];
 
-    const uniqueCountry = ["Location(any)", ...new Set(allCountries)];
-
-    //Set country state
-
-    setCountries(uniqueCountry);
-  }, []);
-
-  // Return all properties
-  useEffect(() => {
     const allProperties = houses.map((house) => {
       return house.type;
     });
-    // remove duplicate country
-
-    const uniqueProperties = ["Property(any)", ...new Set(allProperties)];
-
-    //Set properties state
+    const uniqueProperties = ["All", ...new Set(allProperties)];
 
     setProperties(uniqueProperties);
+    setCountries(uniqueCountry);
   }, []);
 
+  const isDefault = (str) => {
+    return str.includes("All");
+  };
+
+  const searchHouses = (criteria) => {
+    let result = housesData;
+
+    if (criteria.searchCountry) {
+      result = housesData.filter((h) => {
+        return h.country === country;
+      });
+    }
+
+    if (criteria.searchType) {
+      result = result.filter((h) => {
+        return h.type === property;
+      });
+    }
+
+    if (criteria.filterPrice) {
+      result = result.filter((h) => {
+        return h.price >= price.min && h.price <= price.max;
+      });
+    }
+
+    return result;
+  };
+
   const handleClick = () => {
-    // console.log(country, property, price);
+    setLoading(true);
 
-    //set loading 
-    setLoading(true)
+    const searchCountry = !isDefault(country);
+    const searchType = !isDefault(property);
+    const filterPrice = !isDefault(price.price);
 
-    //create a function that check if the strings is included "any()"
+    if (!searchCountry && !searchType && !filterPrice) {
+      setTimeout(() => {
+        setHouses(housesData);
+        setLoading(false);
+      }, 500);
 
-    const isDefault = (str) => {
-      return str.split(" ").includes("(any)");
-    };
-    //get first value of price and parse it to number
-    const minPrice = parseInt(price.split(" ")[0]);
-    //get the second value which the line of maximum number and parse it to number
-    const maxPrice = parseInt(price.split(" ")[2]);
+      return
+    }
 
-    const newHouses = housesData.filter((house) => {
-      const housePrice = parseInt(house.price);
+    let newHouses = searchHouses({ searchCountry, searchType, filterPrice });
 
-      //if all the three value are selected
-
-      if (
-        house.country === country &&
-        house.type === property &&
-        housePrice >= minPrice &&
-        housePrice <= maxPrice
-      ) {
-        return house;
-      }
-
-      // if all the element is in default state
-      if ( isDefault(country) && isDefault(property) && isDefault(price)){
-        return house;
-      }
-
-      //if the country is not in default state
-      if (!isDefault(country) && isDefault(property) && isDefault(price)){
-        return house.country === country;
-      }
-
-      // if the property is not in default state but the remaining two are in default
-
-      if (!isDefault(property) && isDefault(country) && isDefault(price)){
-        return house.type === property
-      }
-
-      // if the price range is not default but the remaining two are default 
-
-      if(!isDefault(price) && isDefault(country) && isDefault(property)){
-        if (housePrice >= minPrice && housePrice <= maxPrice) {
-          return house;
-        }
-      }
-
-      //if the country and property is not default 
-
-      if (!isDefault(country) && !isDefault(property) && isDefault(price)) {
-        return house.country === country && house.type === property
-      }
-
-      //if the country and price is not default 
-
-      if (!isDefault(country) && !isDefault(price) && isDefault(property)) {
-        if (housePrice >= minPrice && housePrice <= maxPrice) {
-          return house.country === country;
-        }
-      }
-      //if the property and price is not default 
-
-      if (isDefault(country) && !isDefault(property) && !isDefault(price)) {
-        if (housePrice >= minPrice && housePrice <= maxPrice) {
-          return house.type === property;
-        }
-      }
-    });
-    setTimeout(()=>{
-      return newHouses.length < 1 ? setHouses([]) :setHouses(newHouses);
-      setLoading(false)
-    })
+    setTimeout(() => {
+      setHouses(newHouses);
+      setLoading(false);
+    }, 500);
   };
 
   return (
