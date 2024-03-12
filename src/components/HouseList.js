@@ -1,22 +1,11 @@
 import React, { useContext } from "react";
-//import context
 import { HouseContext } from "./HouseContext";
-//import component
 import House from "./House";
-//import link
 import { Link } from "react-router-dom";
-//import icons
-import { ImSpinner2 } from "react-icons/im";
+import Loader from "./Loader";
 
-const Loader = ({ className = "text-violet-700", loadingText }) => {
-  return (
-    <center>
-      <ImSpinner2 className={className} size={50}></ImSpinner2>
-      <span className={className}>{loadingText || "Fecthing data..."}</span>
-    </center>
-  );
-};
 
+<Loader />
 const HouseList = () => {
   const { houses, loading } = useContext(HouseContext);
 
