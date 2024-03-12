@@ -29,7 +29,7 @@ const HouseContextProvider = ({ children }) => {
     setCountries(uniqueCountry);
   }, []);
 
-  // Return all properties 
+  // Return all properties
   useEffect(() => {
     const allProperties = houses.map((house) => {
       return house.type;
@@ -43,9 +43,86 @@ const HouseContextProvider = ({ children }) => {
     setProperties(uniqueProperties);
   }, []);
 
-  const handleClick = () =>{
-    console.log("clicked");
-  }
+  const handleClick = () => {
+    // console.log(country, property, price);
+
+    //set loading 
+    setLoading(true)
+
+    //create a function that check if the strings is included "any()"
+
+    const isDefault = (str) => {
+      return str.split(" ").includes("(any)");
+    };
+    //get first value of price and parse it to number
+    const minPrice = parseInt(price.split(" ")[0]);
+    //get the second value which the line of maximum number and parse it to number
+    const maxPrice = parseInt(price.split(" ")[2]);
+
+    const newHouses = housesData.filter((house) => {
+      const housePrice = parseInt(house.price);
+
+      //if all the three value are selected
+
+      if (
+        house.country === country &&
+        house.type === property &&
+        housePrice >= minPrice &&
+        housePrice <= maxPrice
+      ) {
+        return house;
+      }
+
+      // if all the element is in default state
+      if ( isDefault(country) && isDefault(property) && isDefault(price)){
+        return house;
+      }
+
+      //if the country is not in default state
+      if (!isDefault(country) && isDefault(property) && isDefault(price)){
+        return house.country === country;
+      }
+
+      // if the property is not in default state but the remaining two are in default
+
+      if (!isDefault(property) && isDefault(country) && isDefault(price)){
+        return house.type === property
+      }
+
+      // if the price range is not default but the remaining two are default 
+
+      if(!isDefault(price) && isDefault(country) && isDefault(property)){
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house;
+        }
+      }
+
+      //if the country and property is not default 
+
+      if (!isDefault(country) && !isDefault(property) && isDefault(price)) {
+        return house.country === country && house.type === property
+      }
+
+      //if the country and price is not default 
+
+      if (!isDefault(country) && !isDefault(price) && isDefault(property)) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house.country === country;
+        }
+      }
+      //if the property and price is not default 
+
+      if (isDefault(country) && !isDefault(property) && !isDefault(price)) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house.type === property;
+        }
+      }
+    });
+    setTimeout(()=>{
+      return newHouses.length < 1 ? setHouses([]) :setHouses(newHouses);
+      setLoading(false)
+    })
+  };
 
   return (
     <HouseContext.Provider
