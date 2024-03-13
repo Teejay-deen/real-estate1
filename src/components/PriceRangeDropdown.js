@@ -62,7 +62,7 @@ const PriceRangeDropDown = () => {
       </Menu.Button>
 
       <Menu.Items className="dropdown-menu">
-        {[{ value: "All" }, ...prices].map((p, index) => {
+        {[{ value: "All" },...prices].map((p, index) => {
           return (
             <Menu.Item
               onClick={() => {
