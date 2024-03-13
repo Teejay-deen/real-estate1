@@ -72,7 +72,7 @@ const HouseContextProvider = ({ children }) => {
 
     if (!searchCountry && !searchType && !filterPrice) {
       setTimeout(() => {
-        setHouses(housesData);
+        housesData.length < 1 ? setHouses([]) : setHouses(housesData);
         setLoading(false);
       }, 500);
 
@@ -82,7 +82,7 @@ const HouseContextProvider = ({ children }) => {
     let newHouses = searchHouses({ searchCountry, searchType, filterPrice });
 
     setTimeout(() => {
-      setHouses(newHouses);
+      newHouses.length < 1 ? setHouses([]) : setHouses(newHouses);
       setLoading(false);
     }, 500);
   };
@@ -101,6 +101,7 @@ const HouseContextProvider = ({ children }) => {
         houses,
         loading,
         handleClick,
+        loading,
       }}
     >
       {children}
