@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = year.getFullYear()
   return <footer className='bg-black py-8 text-center text-white'>
     <div className='container mx-auto'>
-      Copyright & Copy; {currentYear} ALl right reserved
+      Copyright & Copy; {currentYear} All right reserved
     </div>
   </footer>;
 };
