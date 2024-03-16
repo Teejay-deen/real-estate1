@@ -74,7 +74,7 @@ const HouseContextProvider = ({ children }) => {
       setTimeout(() => {
         housesData.length < 1 ? setHouses([]) : setHouses(housesData);
         setLoading(false);
-      }, 500);
+      }, 1000);
 
       return
     }
