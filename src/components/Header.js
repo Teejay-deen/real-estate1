@@ -18,7 +18,7 @@ const Header = () => {
             className="bg-violet-700 hover:text-violet-800 text-white px-4 py-3 rounded-full transition"
             to=""
           >
-            Sign Up
+            Sign up
           </Link>
         </div>
       </div>
