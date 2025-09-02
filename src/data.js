@@ -12,7 +12,6 @@ import House10 from './assets/img/houses/house10.png';
 import House11 from './assets/img/houses/house11.png';
 import House12 from './assets/img/houses/house12.png';
 // import house large images
-
 import House1Lg from './assets/img/houses/house1lg.png';
 import House2Lg from './assets/img/houses/house2lg.png';
 import House3Lg from './assets/img/houses/house3lg.png';
