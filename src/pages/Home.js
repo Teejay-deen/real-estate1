@@ -7,6 +7,7 @@ const Home = () => {
     <Banner />
     <HouseList />
   </div>;
+  
 };
 
 export default Home;
